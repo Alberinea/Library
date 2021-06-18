@@ -44,8 +44,8 @@ header {
 }
 
 #form {
-    height: 20rem;
-    width: 27rem;
+    height: 22rem;
+    width: 25rem;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -78,4 +78,16 @@ option {
     font-size: 1.3rem;
     box-sizing: border-box;
     margin-bottom: 10px;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button {
+    width: 40%;
+    cursor: pointer;
 }

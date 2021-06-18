@@ -17,16 +17,20 @@
         <div id="form" style="display: none;">
             <span id="closeButton" class="material-icons">close</span>
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title">
+                <input type="text" id="title" name="title">
             <label for="author">Author:</label>
-            <input type="text" id="author" name="author">
+                <input type="text" id="author" name="author">
             <label for="pageNum">Total number of pages:</label>
-            <input type="text" id="pageNum" name="pageNum">
+                <input type="text" id="pageNum" name="pageNum">
             <label for="read">Have you read the book:</label>
-            <select id="read">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
+            <select id="haveRead">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
             </select>
+            <div class="buttonContainer">
+                <input id="confirm" class="button" type="submit" value="Confirm">
+                <input id="clear" class="button" type="submit" value="Clear">
+            </div>
         <script src="script.js"></script>
     </body>
 </html>
