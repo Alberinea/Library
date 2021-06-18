@@ -2,11 +2,6 @@ const addBook = document.getElementById('addBook');
 const form = document.getElementById('form');
 const closeButton = document.getElementById('closeButton');
 const confirmButton = document.getElementById('confirm');
-const clearButton = document.getElementById('clear');
-let titleVar = document.getElementById('title');
-let authorVar = document.getElementById('author');
-let pageNumVar = document.getElementById('pageNum');
-let readVar = document.getElementById('haveRead');
 
 let Library = [];
 
@@ -17,24 +12,23 @@ function Book(title, author, pageNum, read) {
     this.read = read;
 }
 
-function clear() {
-    titleVar.value = '';
-    authorVar.value = '';
-    pageNumVar.value = '';
-    readVar.value = 'No';
+function addBookToLibrary(e) {
+    let titleVar = document.getElementById('title').value;
+    let authorVar = document.getElementById('author').value;
+    let pageNumVar = document.getElementById('pageNum').value;
+    let readVar = document.getElementById('haveRead').value;
+    if (form.checkValidity()) {
+        const newBook = new Book(titleVar, authorVar, pageNumVar, readVar);
+        Library.push(newBook);
+        form.style.cssText = 'opacity: 0; pointer-events: none;';
+        form.reset();
+        e.preventDefault()
+        console.log(Library);
+    }
 }
 
-function addBookToLibrary() {
-    const newBook = new Book(titleVar.value, authorVar.value, pageNumVar.value, readVar.value);
-    Library.push(newBook);
-    form.style.cssText = 'display: none';
-    clear();
-    console.log(Library);
-}
-
-addBook.addEventListener('click', () => (form.style.cssText = 'display: flex'));
-closeButton.addEventListener('click', () => (form.style.cssText = 'display: none'));
+addBook.addEventListener('click', () => (form.style.cssText = 'opacity: 100'));
+closeButton.addEventListener('click', () => (form.style.cssText = 'opacity: 0; pointer-events: none;'));
 confirmButton.addEventListener('click', addBookToLibrary);
-clearButton.addEventListener('click', clear);
 
 console.log(Library);

@@ -4,33 +4,37 @@
         <title>Library</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="styles.css" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     </head>
     <body>
         <header>
-            <img id="icon" src="https://cdn.icon-icons.com/icons2/2474/PNG/512/education_books_library_icon_149685.png" alt="icon">
+            <img
+                id="icon"
+                src="https://cdn.icon-icons.com/icons2/2474/PNG/512/education_books_library_icon_149685.png"
+                alt="icon"
+            />
             <p id="webTitle">Library</p>
             <p id="addBook">Add new book</p>
         </header>
         <div id="container"></div>
-        <div id="form" style="display: none;">
+        <form id="form" name="addBook" style="opacity: 0; pointer-events: none;">
             <span id="closeButton" class="material-icons">close</span>
             <label for="title">Title:</label>
-                <input type="text" id="title" name="title">
+            <input type="text" id="title" name="title" required />
             <label for="author">Author:</label>
-                <input type="text" id="author" name="author">
+            <input type="text" id="author" name="author" required />
             <label for="pageNum">Total number of pages:</label>
-                <input type="text" id="pageNum" name="pageNum">
+            <input type="text" id="pageNum" name="pageNum" pattern="\d+" required />
             <label for="read">Have you read the book:</label>
             <select id="haveRead">
                 <option value="No">No</option>
                 <option value="Yes">Yes</option>
             </select>
             <div class="buttonContainer">
-                <input id="confirm" class="button" type="submit" value="Confirm">
-                <input id="clear" class="button" type="submit" value="Clear">
+                <input id="confirm" class="button" type="submit" value="Confirm" />
+                <input id="clear" class="button" type="reset" value="Reset" />
             </div>
+        </form>
         <script src="script.js"></script>
     </body>
 </html>
