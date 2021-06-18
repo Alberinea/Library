@@ -1,0 +1,35 @@
+html,
+body {
+    background-color: rgb(247, 247, 248);
+    margin: 0;
+    height: 100%;
+}
+
+header {
+    background-color: white;
+    font-size: 2rem;
+    height: 5rem;
+    box-shadow: 0 2px 1.5px 0 rgba(0, 0, 0, 0.15);
+    display: flex;
+}
+
+#icon {
+    margin-left: 30px;
+}
+
+#title {
+    align-self: center;
+    margin-left: 30px;
+    font-weight: bold;
+}
+
+#addBook {
+    align-self: center;
+    margin-left: auto;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+#addBook:hover {
+    text-decoration: underline;
+}
