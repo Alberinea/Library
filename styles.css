@@ -41,9 +41,11 @@ header {
     left: 50%;
     transform: translate(-50%);
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(7, 230px);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: repeat(7, 450px);
     grid-gap: 20px;
+    padding-top: 20px;
+    word-break: break-all;
 }
 
 #form {
@@ -66,7 +68,6 @@ header {
     margin: -45px -45px 0 0;
     font-size: 30px;
     margin-left: auto;
-    cursor: pointer;
 }
 
 label {
@@ -96,10 +97,35 @@ option {
 }
 
 .book {
-    text-align: center;
     font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid;
+    background-color: rgb(255, 255, 255);
+    flex-wrap: wrap;
+    text-align: center;
 }
 
 .text {
     margin: 5px;
+    flex: 1 1 auto;
+}
+
+.bookTitle {
+    margin: 10px;
+}
+
+.bookIcons {
+    display: flex;
+    justify-content: space-between;
+}
+
+h2 {
+    padding-top: 10px;
+    height: 30%;
+}
+
+.material-icons {
+    cursor: pointer;
+    user-select: none;
 }

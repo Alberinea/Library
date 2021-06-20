@@ -2,6 +2,8 @@ const addBook = document.getElementById('addBook');
 const form = document.getElementById('form');
 const closeButton = document.getElementById('closeButton');
 const confirmButton = document.getElementById('confirm');
+const markButtons = document.querySelectorAll('.mark');
+const removeButtons = document.querySelectorAll('.bookClose');
 
 let Library = [];
 
@@ -12,14 +14,39 @@ function Book(title, author, pageNum, read) {
     this.read = read;
 }
 
+function removeBook() {
+    this.parentElement.parentElement.remove();
+    console.log('a');
+}
+
+function changeRead() {
+    this.innerText = this.innerText === 'bookmark_border' ? 'bookmark' : 'bookmark_border';
+    let readStatus = this.parentElement.parentElement.lastElementChild.innerText;
+    this.parentElement.parentElement.lastElementChild.innerText =
+        readStatus === 'Read already' ? 'Not read yet' : 'Read already';
+}
+
 function displayBook() {
-    for (let index = 0; index < Library.length; index++) {
+    let readVar = document.getElementById('haveRead').value;
+    for (let index = Library.length - 1; index < Library.length; index++) {
         const element = Library[index];
-        const htmlText = `<h1>${element.title}</h1>
-                <p class="text">By ${element.author}</p>
-                <p class="text">${element.pageNum} pages</p>
-                <p class="text">${element.read}</p>`;
-        document.getElementById(index).innerHTML = htmlText;
+        const content = document.getElementById(index);
+        content.innerHTML = `
+                    <div class="bookIcons">
+                        <span class="material-icons mark"></span>
+                        <span class="material-icons bookClose">close</span> 
+                    </div>
+                    <h2 class="bookTitle">${element.title}</h2>
+                    <p class="text">By ${element.author}</p>
+                    <p class="text">${element.pageNum} pages</p>
+                    <p class="text read">${element.read}</p>`;
+        content.querySelector('.mark').setAttribute('id', `mark ${index}`);
+        content.querySelector('.bookClose').setAttribute('id', `remove ${index}`);
+        const markButton = document.getElementById(`mark ${index}`);
+        const removeButton = document.getElementById(`remove ${index}`);
+        markButton.innerText = readVar === 'Yes' ? 'bookmark_border' : 'bookmark';
+        markButton.addEventListener('click', changeRead)
+        removeButton.addEventListener('click', removeBook)
     }
 }
 
@@ -37,13 +64,15 @@ function addBookToLibrary(e) {
         newDiv.setAttribute('id', Library.length);
         Library.push(newBook);
         form.style.cssText = 'opacity: 0; pointer-events: none;';
-        form.reset();
         displayBook();
+        form.reset();
         e.preventDefault();
     }
 }
 
+
 addBook.addEventListener('click', () => (form.style.cssText = 'opacity: 100'));
 closeButton.addEventListener('click', () => (form.style.cssText = 'opacity: 0; pointer-events: none;'));
 confirmButton.addEventListener('click', addBookToLibrary);
-
+removeButtons.forEach((removeButton) => removeButton.addEventListener('click', removeBook));
+markButtons.forEach((markButton) => markButton.addEventListener('click', changeRead));

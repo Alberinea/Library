@@ -17,14 +17,14 @@
             <p id="addBook">Add new book</p>
         </header>
         <div id="container"></div>
-        <form id="form" name="addBook" style="opacity: 0; pointer-events: none;">
+        <form id="form" name="addBook" style="opacity: 0; pointer-events: none">
             <span id="closeButton" class="material-icons">close</span>
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required />
+            <input type="text" id="title" name="title" maxlength="30" required />
             <label for="author">Author:</label>
-            <input type="text" id="author" name="author" required />
+            <input type="text" id="author" name="author" maxlength="30" required />
             <label for="pageNum">Total number of pages:</label>
-            <input type="text" id="pageNum" name="pageNum" pattern="\d+" required />
+            <input type="text" id="pageNum" name="pageNum" pattern="\d+" maxlength="5" required />
             <label for="read">Have you read the book:</label>
             <select id="haveRead">
                 <option value="No">No</option>
@@ -38,3 +38,5 @@
         <script src="script.js"></script>
     </body>
 </html>
+
+<div></div>
