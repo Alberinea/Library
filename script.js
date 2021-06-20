@@ -4,6 +4,7 @@ const closeButton = document.getElementById('closeButton');
 const confirmButton = document.getElementById('confirm');
 const markButtons = document.querySelectorAll('.mark');
 const removeButtons = document.querySelectorAll('.bookClose');
+let actionDisabled = false;
 
 let Library = [];
 
@@ -15,11 +16,13 @@ function Book(title, author, pageNum, read) {
 }
 
 function removeBook() {
+    if (actionDisabled) return;
     this.parentElement.parentElement.remove();
     console.log('a');
 }
 
 function changeRead() {
+    if (actionDisabled) return;
     this.innerText = this.innerText === 'bookmark_border' ? 'bookmark' : 'bookmark_border';
     let readStatus = this.parentElement.parentElement.lastElementChild.innerText;
     this.parentElement.parentElement.lastElementChild.innerText =
@@ -36,8 +39,8 @@ function displayBook() {
                         <span class="material-icons mark"></span>
                         <span class="material-icons bookClose">close</span> 
                     </div>
-                    <h2 class="bookTitle">${element.title}</h2>
-                    <p class="text">By ${element.author}</p>
+                    <h3 class="bookTitle">${element.title}</h3>
+                    <p class="text">By: ${element.author}</p>
                     <p class="text">${element.pageNum} pages</p>
                     <p class="text read">${element.read}</p>`;
         content.querySelector('.mark').setAttribute('id', `mark ${index}`);
@@ -45,12 +48,13 @@ function displayBook() {
         const markButton = document.getElementById(`mark ${index}`);
         const removeButton = document.getElementById(`remove ${index}`);
         markButton.innerText = readVar === 'Yes' ? 'bookmark_border' : 'bookmark';
-        markButton.addEventListener('click', changeRead)
-        removeButton.addEventListener('click', removeBook)
+        markButton.addEventListener('click', changeRead);
+        removeButton.addEventListener('click', removeBook);
     }
 }
 
 function addBookToLibrary(e) {
+    actionDisabled = false;
     let titleVar = document.getElementById('title').value;
     let authorVar = document.getElementById('author').value;
     let pageNumVar = document.getElementById('pageNum').value;
@@ -70,9 +74,15 @@ function addBookToLibrary(e) {
     }
 }
 
-
-addBook.addEventListener('click', () => (form.style.cssText = 'opacity: 100'));
-closeButton.addEventListener('click', () => (form.style.cssText = 'opacity: 0; pointer-events: none;'));
+addBook.addEventListener('click', () => {
+    form.style.cssText = 'opacity: 100';
+    actionDisabled = true;
+});
+closeButton.addEventListener('click', () => {
+    form.style.cssText = 'opacity: 0; pointer-events: none;';
+    actionDisabled = false;
+});
 confirmButton.addEventListener('click', addBookToLibrary);
 removeButtons.forEach((removeButton) => removeButton.addEventListener('click', removeBook));
 markButtons.forEach((markButton) => markButton.addEventListener('click', changeRead));
+
