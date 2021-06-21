@@ -28,9 +28,9 @@ function changeRead() {
     this.innerText = this.innerText === 'bookmark_border' ? 'bookmark' : 'bookmark_border';
     let readStatus = this.parentElement.parentElement.lastElementChild.innerText;
     this.parentElement.parentElement.lastElementChild.innerText =
-        readStatus === 'Read already' ? 'Not read yet' : 'Read already';
+        readStatus === 'Read' ? 'Not read yet' : 'Read';
     localLibrary[this.parentElement.parentElement.id].read =
-        readStatus === 'Read already' ? 'Not read yet' : 'Read already';
+        readStatus === 'Read' ? 'Not read yet' : 'Read';
     localStorage.setItem('localLibrary', JSON.stringify(localLibrary));
 }
 
@@ -80,7 +80,7 @@ function localInit() {
         const markButton = document.getElementById(`mark ${index}`);
         const removeButton = document.getElementById(`remove ${index}`);
         markButton.innerText =
-            markButton.parentElement.parentElement.lastElementChild.innerText === 'Read already'
+            markButton.parentElement.parentElement.lastElementChild.innerText === 'Read'
                 ? 'bookmark_border'
                 : 'bookmark';
         markButton.addEventListener('click', changeRead);
@@ -94,7 +94,7 @@ function addBookToLibrary(e) {
     let authorVar = document.getElementById('author').value;
     let pageNumVar = document.getElementById('pageNum').value;
     let readVar = document.getElementById('haveRead').value;
-    readVar = readVar === 'Yes' ? 'Read already' : 'Not read yet';
+    readVar = readVar === 'Yes' ? 'Read' : 'Not read yet';
     if (form.checkValidity()) {
         const newBook = new Book(titleVar, authorVar, pageNumVar, readVar);
         const newDiv = document.createElement('div');
