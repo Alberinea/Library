@@ -2,8 +2,7 @@ const addBook = document.getElementById('addBook');
 const form = document.getElementById('form');
 const closeButton = document.getElementById('closeButton');
 const confirmButton = document.getElementById('confirm');
-const markButtons = document.querySelectorAll('.mark');
-const removeButtons = document.querySelectorAll('.bookClose');
+const removeAllButton = document.getElementById('removeAllButton')
 
 let actionDisabled = false;
 
@@ -30,7 +29,9 @@ function changeRead() {
     let readStatus = this.parentElement.parentElement.lastElementChild.innerText;
     this.parentElement.parentElement.lastElementChild.innerText =
         readStatus === 'Read already' ? 'Not read yet' : 'Read already';
-    console.log(this.innerText);
+    localLibrary[this.parentElement.parentElement.id].read =
+        readStatus === 'Read already' ? 'Not read yet' : 'Read already';
+    localStorage.setItem('localLibrary', JSON.stringify(localLibrary));
 }
 
 function displayBook() {
@@ -111,6 +112,11 @@ function addBookToLibrary(e) {
     }
 }
 
+function removeAll() {
+    document.querySelectorAll('.book').forEach((book) => book.remove())
+    localStorage.clear();
+}
+
 addBook.addEventListener('click', () => {
     form.style.cssText = 'opacity: 100';
     actionDisabled = true;
@@ -120,7 +126,6 @@ closeButton.addEventListener('click', () => {
     actionDisabled = false;
 });
 confirmButton.addEventListener('click', addBookToLibrary);
-removeButtons.forEach((removeButton) => removeButton.addEventListener('click', removeBook));
-markButtons.forEach((markButton) => markButton.addEventListener('click', changeRead));
+removeAllButton.addEventListener('click', removeAll)
 
-localInit()
+localInit() 

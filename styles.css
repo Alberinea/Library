@@ -12,6 +12,8 @@ header {
     height: 5rem;
     box-shadow: 0 2px 1.5px 0 rgba(0, 0, 0, 0.15);
     display: flex;
+    position: relative;
+    z-index: 10;
 }
 
 #icon {
@@ -25,7 +27,7 @@ header {
 }
 
 #addBook {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     align-self: center;
     margin-left: auto;
     margin-right: 30px;
@@ -62,7 +64,7 @@ header {
     flex-direction: column;
     padding: 50px 50px 50px 50px;
     font-size: 1.5rem;
-    background-color: rgb(247, 247, 248)
+    background-color: rgb(247, 247, 248);
 }
 
 #closeButton {
@@ -131,5 +133,36 @@ h3 {
 .material-icons {
     cursor: pointer;
     user-select: none;
+    font-size: 40px !important;
 }
 
+#left {
+    height: calc(100vh - 5rem);
+    width: 10rem;
+    position: absolute;
+    background-color: rgb(239, 239, 241);
+    text-align: center;
+}
+
+#removeAllButton {
+    padding-top: 30px;
+    font-size: 80px !important;
+}
+
+#removeAllButton .tooltip {
+    visibility: hidden;
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    padding-top: 5px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 11px;
+    margin-right: 50px;
+}
+
+#removeAllButton:hover .tooltip {
+    visibility: visible;
+}
