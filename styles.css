@@ -168,3 +168,15 @@ h3 {
 #removeAllButton:hover .tooltip {
     visibility: visible;
 }
+
+.green {
+    background-color: green;
+    color: white;
+    border-color: black;
+}
+
+.red {
+    background-color: red;
+    color: white;
+    border-color: black;
+}

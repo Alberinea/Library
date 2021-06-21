@@ -2,7 +2,7 @@ const addBook = document.getElementById('addBook');
 const form = document.getElementById('form');
 const closeButton = document.getElementById('closeButton');
 const confirmButton = document.getElementById('confirm');
-const removeAllButton = document.getElementById('removeAllButton')
+const removeAllButton = document.getElementById('removeAllButton');
 
 let actionDisabled = false;
 
@@ -27,10 +27,16 @@ function changeRead() {
     if (actionDisabled) return;
     this.innerText = this.innerText === 'bookmark_border' ? 'bookmark' : 'bookmark_border';
     let readStatus = this.parentElement.parentElement.lastElementChild.innerText;
-    this.parentElement.parentElement.lastElementChild.innerText =
-        readStatus === 'Read' ? 'Not read yet' : 'Read';
-    localLibrary[this.parentElement.parentElement.id].read =
-        readStatus === 'Read' ? 'Not read yet' : 'Read';
+    if (readStatus === 'Read') {
+        this.parentElement.parentElement.lastElementChild.innerText = 'Not read yet';
+        this.parentElement.parentElement.lastElementChild.classList.remove('green');
+        this.parentElement.parentElement.lastElementChild.classList.add('red')
+    } else {
+        this.parentElement.parentElement.lastElementChild.innerText = 'Read';
+        this.parentElement.parentElement.lastElementChild.classList.remove('red');
+        this.parentElement.parentElement.lastElementChild.classList.add('green');
+    }
+    localLibrary[this.parentElement.parentElement.id].read = readStatus === 'Read' ? 'Not read yet' : 'Read';
     localStorage.setItem('localLibrary', JSON.stringify(localLibrary));
 }
 
@@ -47,12 +53,19 @@ function displayBook() {
                     <h3 class="bookTitle">${element.title}</h3>
                     <p class="text">By: ${element.author}</p>
                     <p class="text">${element.pageNum} pages</p>
-                    <p class="text read">${element.read}</p>`;
+                    <p id="color ${index}" class="text">${element.read}</p>`;
         content.querySelector('.mark').setAttribute('id', `mark ${index}`);
         content.querySelector('.bookClose').setAttribute('id', `remove ${index}`);
         const markButton = document.getElementById(`mark ${index}`);
         const removeButton = document.getElementById(`remove ${index}`);
-        markButton.innerText = readVar === 'Yes' ? 'bookmark_border' : 'bookmark';
+        const color = document.getElementById(`color ${index}`)
+        if (readVar === 'Yes') {
+            markButton.innerText = 'bookmark_border';
+            color.classList.add('green')
+        } else {
+            markButton.innerText = 'bookmark';
+            color.classList.add('red');
+        }
         markButton.addEventListener('click', changeRead);
         removeButton.addEventListener('click', removeBook);
     }
@@ -74,15 +87,19 @@ function localInit() {
                     <h3 class="bookTitle">${element.title}</h3>
                     <p class="text">By: ${element.author}</p>
                     <p class="text">${element.pageNum} pages</p>
-                    <p class="text read">${element.read}</p>`;
+                    <p id="color ${index}" class="text">${element.read}</p>`;
         content.querySelector('.mark').setAttribute('id', `mark ${index}`);
         content.querySelector('.bookClose').setAttribute('id', `remove ${index}`);
         const markButton = document.getElementById(`mark ${index}`);
         const removeButton = document.getElementById(`remove ${index}`);
-        markButton.innerText =
-            markButton.parentElement.parentElement.lastElementChild.innerText === 'Read'
-                ? 'bookmark_border'
-                : 'bookmark';
+        const color = document.getElementById(`color ${index}`);
+        if (markButton.parentElement.parentElement.lastElementChild.innerText === 'Read') {
+            markButton.innerText = 'bookmark_border';
+            color.classList.add('green');
+        } else {
+            markButton.innerText = 'bookmark';
+            color.classList.add('red');
+        }
         markButton.addEventListener('click', changeRead);
         removeButton.addEventListener('click', removeBook);
     }
@@ -102,7 +119,7 @@ function addBookToLibrary(e) {
         newDiv.setAttribute('class', 'book');
         newDiv.setAttribute('id', localLibrary.length);
         Library.push(newBook);
-        localLibrary.push(Library[Library.length -1]);
+        localLibrary.push(Library[Library.length - 1]);
         console.log(localLibrary);
         localStorage.setItem('localLibrary', JSON.stringify(localLibrary));
         form.style.cssText = 'opacity: 0; pointer-events: none;';
@@ -113,7 +130,7 @@ function addBookToLibrary(e) {
 }
 
 function removeAll() {
-    document.querySelectorAll('.book').forEach((book) => book.remove())
+    document.querySelectorAll('.book').forEach((book) => book.remove());
     localStorage.clear();
 }
 
@@ -126,6 +143,6 @@ closeButton.addEventListener('click', () => {
     actionDisabled = false;
 });
 confirmButton.addEventListener('click', addBookToLibrary);
-removeAllButton.addEventListener('click', removeAll)
+removeAllButton.addEventListener('click', removeAll);
 
-localInit() 
+localInit();
