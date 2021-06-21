@@ -4,9 +4,11 @@ const closeButton = document.getElementById('closeButton');
 const confirmButton = document.getElementById('confirm');
 const markButtons = document.querySelectorAll('.mark');
 const removeButtons = document.querySelectorAll('.bookClose');
+
 let actionDisabled = false;
 
 let Library = [];
+let localLibrary = JSON.parse(localStorage.getItem('localLibrary')) || [];
 
 function Book(title, author, pageNum, read) {
     this.title = title;
@@ -18,7 +20,7 @@ function Book(title, author, pageNum, read) {
 function removeBook() {
     if (actionDisabled) return;
     this.parentElement.parentElement.remove();
-    console.log('a');
+    console.log(this.parentElement.parentElement.id);
 }
 
 function changeRead() {
@@ -27,27 +29,58 @@ function changeRead() {
     let readStatus = this.parentElement.parentElement.lastElementChild.innerText;
     this.parentElement.parentElement.lastElementChild.innerText =
         readStatus === 'Read already' ? 'Not read yet' : 'Read already';
+    console.log(this.innerText);
 }
 
 function displayBook() {
     let readVar = document.getElementById('haveRead').value;
-    for (let index = Library.length - 1; index < Library.length; index++) {
-        const element = Library[index];
+    for (let index = localLibrary.length - 1; index < localLibrary.length; index++) {
+        const element = localLibrary[index];
         const content = document.getElementById(index);
         content.innerHTML = `
                     <div class="bookIcons">
                         <span class="material-icons mark"></span>
                         <span class="material-icons bookClose">close</span> 
                     </div>
-                    <h3 class="bookTitle">${element.title}</h3>
-                    <p class="text">By: ${element.author}</p>
-                    <p class="text">${element.pageNum} pages</p>
-                    <p class="text read">${element.read}</p>`;
+                    <h3 class="bookTitle">${element[0].title}</h3>
+                    <p class="text">By: ${element[0].author}</p>
+                    <p class="text">${element[0].pageNum} pages</p>
+                    <p class="text read">${element[0].read}</p>`;
         content.querySelector('.mark').setAttribute('id', `mark ${index}`);
         content.querySelector('.bookClose').setAttribute('id', `remove ${index}`);
         const markButton = document.getElementById(`mark ${index}`);
         const removeButton = document.getElementById(`remove ${index}`);
         markButton.innerText = readVar === 'Yes' ? 'bookmark_border' : 'bookmark';
+        markButton.addEventListener('click', changeRead);
+        removeButton.addEventListener('click', removeBook);
+    }
+}
+
+function localInit() {
+    for (let index = 0; index < localLibrary.length; index++) {
+        const newDiv = document.createElement('div');
+        document.getElementById('container').appendChild(newDiv);
+        newDiv.setAttribute('class', 'book');
+        newDiv.setAttribute('id', index);
+        const element = localLibrary[index];
+        const content = document.getElementById(index);
+        content.innerHTML = `
+                    <div class="bookIcons">
+                        <span class="material-icons mark"></span>
+                        <span class="material-icons bookClose">close</span> 
+                    </div>
+                    <h3 class="bookTitle">${element[0].title}</h3>
+                    <p class="text">By: ${element[0].author}</p>
+                    <p class="text">${element[0].pageNum} pages</p>
+                    <p class="text read">${element[0].read}</p>`;
+        content.querySelector('.mark').setAttribute('id', `mark ${index}`);
+        content.querySelector('.bookClose').setAttribute('id', `remove ${index}`);
+        const markButton = document.getElementById(`mark ${index}`);
+        const removeButton = document.getElementById(`remove ${index}`);
+        markButton.innerText =
+            markButton.parentElement.parentElement.lastElementChild.innerText === 'Read already'
+                ? 'bookmark_border'
+                : 'bookmark';
         markButton.addEventListener('click', changeRead);
         removeButton.addEventListener('click', removeBook);
     }
@@ -65,8 +98,10 @@ function addBookToLibrary(e) {
         const newDiv = document.createElement('div');
         document.getElementById('container').appendChild(newDiv);
         newDiv.setAttribute('class', 'book');
-        newDiv.setAttribute('id', Library.length);
+        newDiv.setAttribute('id', localLibrary.length);
         Library.push(newBook);
+        localLibrary.push(Library);
+        localStorage.setItem('localLibrary', JSON.stringify(localLibrary));
         form.style.cssText = 'opacity: 0; pointer-events: none;';
         displayBook();
         form.reset();
@@ -86,3 +121,4 @@ confirmButton.addEventListener('click', addBookToLibrary);
 removeButtons.forEach((removeButton) => removeButton.addEventListener('click', removeBook));
 markButtons.forEach((markButton) => markButton.addEventListener('click', changeRead));
 
+localInit();
